@@ -28,14 +28,21 @@ function App() {
 
   return (
     <>
+    {/* <div className='flex bg-slate-700 px-5'>
+      <h1 className='text-white text-2xl py-3'>Musica</h1>
+    </div> */}
       <div className="flex p-5">
-        <Input value={searchValue} onChange={handleInputChange} />
-        <Button className='px-10' onClick={handleSearch}>Search</Button>
+        <Input placeholder='Search' value={searchValue} onSubmit={handleSearch} onChange={handleInputChange} />
+        <Button className='px-8' onClick={handleSearch}>Search</Button>
       </div>
-      <section className='grid grid-cols-4 gap-4 px-48'>
-        {songs.map((song, index) => (
-          <Card key={index} {...song} />
-        ))}
+      <section className='flex items-center flex-col'>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {/* <div className="flex flex-col items-center"> */}
+          {songs.map((song, index) => (
+            <Card  key={index} {...song} />
+          ))}
+
+        </div>
       </section>
     </>
   )
