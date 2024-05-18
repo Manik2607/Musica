@@ -38,7 +38,11 @@ function App() {
 
   };
   
-
+  const handleKeyDown = (event:any) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
   const handleInputChange = (event: any ) => {
     setSearchValue(event.target.value);
     
@@ -54,7 +58,7 @@ function App() {
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             <ModeToggle/>
         </ThemeProvider>
-        <Input className='mx-1' placeholder='Search' value={searchValue} onSubmit={handleSearch} onChange={handleInputChange} />
+        <Input onKeyDown={handleKeyDown}  className='mx-1' placeholder='Search' value={searchValue} onSubmit={handleSearch} onChange={handleInputChange} />
         <Button className='px-8 border border-gray-600' onClick={handleSearch}>Search</Button>
       </div>
       <div className="min-h-screen lg:px-44">
