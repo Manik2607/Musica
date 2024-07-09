@@ -32,15 +32,17 @@ function App() {
     const songList = bulkSongs.split("\n");
     console.log(songList);
     for (let i = 0; i < songList.length; i++) {
-      const response = await fetch('https://musica-api-8odu.onrender.com/getSong/'+songList[i]);
+      const response = await fetch('https://musica-api-8odu.onrender.com/getSong/'+songList[i].trim());
       if (!response.ok) {
           throw new Error('Network response was not ok');
       }
       const downloadLink = await response.json();
-      const downloadLinkElement = document.createElement('a');
-      downloadLinkElement.href = downloadLink;
-      downloadLinkElement.download = 'song.mp3';
-      downloadLinkElement.click();
+      if(downloadLink){
+        const downloadLinkElement = document.createElement('a');
+        downloadLinkElement.href = downloadLink;
+        downloadLinkElement.download = 'song.mp3';
+        downloadLinkElement.click();
+      }
     }
 
   };
@@ -61,10 +63,17 @@ function App() {
       handleSearch();
     }
   };
+  function removeNonAlphabetic(str:String) {
+
+    return str.replace(/[^a-zA-Z\n ]/g, '');
+  }
   const handleInputChange = (event: any ) => {
     setSearchValue(event.target.value);
     
   };
+  const handleBulkSongChange = (event: any ) => {
+    setbulkSongs(removeNonAlphabetic(event.target.value));
+  }
   useEffect(() => {
     defaultSearch();
   }, []);
@@ -84,7 +93,7 @@ function App() {
           <SheetHeader>
             <SheetTitle>Bulk Download</SheetTitle>
           </SheetHeader>
-            <textarea className='w-full h-64 mt-5 p-2 border border-gray-600' placeholder='Song names..' value={bulkSongs} onChange={(event)=>setbulkSongs(event.target.value)} ></textarea>
+            <textarea className='w-full h-64 mt-5 p-2 border border-gray-600' placeholder='Song names..' value={bulkSongs} onChange={handleBulkSongChange} ></textarea>
             <Button className='px-8 border border-gray-600' onClick={handleBulkDownload}>Download</Button>
         </SheetContent>
       </Sheet>
